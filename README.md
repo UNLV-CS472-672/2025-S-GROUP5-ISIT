@@ -9,6 +9,7 @@ We aim to create a mobile app to improve health and nutrition transparency. User
 ## Databases Used
 
 ## Documents
-1. [PreCondition Report](https://docs.google.com/document/d/1-pxEQ8qhrdBURnaxEpLjr92rGk1bMG7kKCMM68TOLPs/edit?tab=t.0)
+1. [PreCondition Report](https://docs.google.com/document/d/1-pxEQ8qhrdBURnaxEpLjr92rGk1bMG7kKCMM68TOLPs/preview?tab=t.0)
+2. [Design Portfolio 1](https://docs.google.com/document/d/1UOOjYkdUakpcMgCODxpnWCzssQR8GyRw0cU9jYG2FkI/preview?tab=t.0)
 
 ## Misc Links
