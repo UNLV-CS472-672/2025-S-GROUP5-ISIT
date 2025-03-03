@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">IngrediScan</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_scan">Scan</string>
+    <string name="title_previous_results">Previous Results</string>
+    <string name="title_profile">Profile</string>
 </resources>
