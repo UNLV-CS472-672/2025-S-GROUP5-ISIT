@@ -13,3 +13,4 @@ We aim to create a mobile app to improve health and nutrition transparency. User
 2. [Design Portfolio 1](https://docs.google.com/document/d/1UOOjYkdUakpcMgCODxpnWCzssQR8GyRw0cU9jYG2FkI/preview?tab=t.0)
 
 ## Misc Links
+1. [UI Design Prototypes](https://www.figma.com/design/BfUXGKxHTIdLMgxQOayYtk/ISIT-App-UI-Concept-Design?node-id=2-3&t=BZTrfhj3ws0p5ttX-1)
