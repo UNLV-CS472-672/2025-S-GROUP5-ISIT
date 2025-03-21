@@ -23,4 +23,14 @@
     <string name="PlusIcon">+</string>
     <string name="log_a_meal_for_dinner">Log A Meal for Dinner</string>
     <string name="log_a_meal_for_snack">Log A Meal for Snack</string>
+
+    <!--
+    Profile Strings
+    -->
+    <string name="profile_image">Profile Image</string>
+    <string name="profile_weight">Weight: 0.00 LBS</string>
+    <string name="profile_height">Height: 0 00</string>
+    <string name="profile_age">Age: 00 years</string>
+    <string name="profile_sex">Sex: N/A</string>
+    <string name="profile_activity_level">Activity Level: N/A</string>
 </resources>
