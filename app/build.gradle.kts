@@ -1,5 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.application")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.firebase-perf")
+//    alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
@@ -67,6 +70,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
     // Dependencies for ApiCalls.kt
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -79,4 +83,8 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
     // Truth library for better assertions
     testImplementation("com.google.truth:truth:1.1.3")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-perf")
 }
