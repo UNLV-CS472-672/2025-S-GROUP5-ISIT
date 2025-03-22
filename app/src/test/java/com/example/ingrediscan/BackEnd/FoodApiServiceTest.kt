@@ -126,12 +126,37 @@ class FoodApiServiceTest {
         val mockResponse = MockResponse().setResponseCode(500)
         mockWebServer.enqueue(mockResponse)
 
-        try {
-            // Call the API and expect an exception to be thrown
-            api.searchFoods("Apple", "test_api_key")
-        } catch (e: Exception) {
-            // Verify that the exception is an HttpException (indicating an HTTP error)
-            assert(e is retrofit2.HttpException)
-        }
+        // Use runCatching to capture the exception
+        val exception = runCatching { api.searchFoods("Apple", "test_api_key") }.exceptionOrNull()
+
+        // Verify that the exception is an HttpException with status code 500
+        assert(exception is retrofit2.HttpException)
+        assertEquals(500, (exception as retrofit2.HttpException).code())
+    }
+
+    /**
+     * Test case for an empty API key.
+     * Verifies that the API correctly handles cases where the API key is an empty string.
+     */
+    @Test
+    fun `test empty API key`() = runBlocking {
+        // Mock response with an empty list of foods
+        val mockResponse = MockResponse()
+            .setBody("""
+                {
+                    "foods": []
+                }
+            """)
+            .setResponseCode(401) // Simulate an unauthorized HTTP response (empty API key)
+
+        // Enqueue the mock response to be returned by the mock server
+        mockWebServer.enqueue(mockResponse)
+
+        // Use runCatching to capture the exception
+        val exception = runCatching { api.searchFoods("Apple", "") }.exceptionOrNull()
+
+        // Verify that the exception is an HttpException with status code 401
+        assert(exception is retrofit2.HttpException)
+        assertEquals(401, (exception as retrofit2.HttpException).code())
     }
 }
