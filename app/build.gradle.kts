@@ -28,11 +28,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -67,6 +67,16 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //CamaraX Dependencies
+    val cameraVersions = "1.4.1"
+    implementation("androidx.camera:camera-core:${cameraVersions}")
+    implementation("androidx.camera:camera-camera2:${cameraVersions}")
+    implementation("androidx.camera:camera-lifecycle:${cameraVersions}")
+    implementation("androidx.camera:camera-view:${cameraVersions}")
+    implementation("androidx.camera:camera-extensions:${cameraVersions}")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation ("androidx.appcompat:appcompat:1.7.0")
 
 
 }
