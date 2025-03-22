@@ -70,6 +70,20 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Dependencies for ApiCalls.kt
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    // Dependencies for FoodApiServiceTest.kt
+    // Unit Testing
+    testImplementation("junit:junit:4.13.2")
+    // Coroutines Test
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    // Retrofit + MockWebServer for API testing
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
+    // Truth library for better assertions
+    testImplementation("com.google.truth:truth:1.1.3")
+
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-perf")
