@@ -36,6 +36,7 @@ class SearchFragment : Fragment() {
         return root
     }
     
+    // Display search bar after start up
     override fun onViewCreated(
         view: View, 
         savedInstanceState: Bundle?
