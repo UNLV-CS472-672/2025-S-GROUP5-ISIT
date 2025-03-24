@@ -36,12 +36,8 @@ class ProfileFragment : Fragment() {
         val ageButton = binding.profileButtonAge
         val sexButton = binding.profileButtonSex
         val activityLevelButton = binding.profileButtonActivityLevel
-        val bmiTextView = binding.bmiText
-        val idealWeightTextView = binding.idealWeightText
 
-        profileBanner.let{
-            it.visibility = View.VISIBLE
-        }
+        profileBanner.visibility = View.VISIBLE
 
         // *** Weight Button ***
         profileViewModel.weight.observe(viewLifecycleOwner) { newWeight ->
@@ -49,7 +45,9 @@ class ProfileFragment : Fragment() {
         }
         weightButton.setOnClickListener {
             showNumberPickerDialog("Enter Weight", 50, 500) { enteredWeight ->
-                profileViewModel.setWeight(enteredWeight) // Store as Int
+                profileViewModel.setWeight(enteredWeight)
+                profileViewModel.updateBMI()
+                profileViewModel.updateCalorieGoals()
             }
         }
 
@@ -61,7 +59,9 @@ class ProfileFragment : Fragment() {
         }
         heightButton.setOnClickListener {
             showHeightPickerDialog { feet, inches ->
-                profileViewModel.setHeight(feet, inches) // Store as Int values
+                profileViewModel.setHeight(feet, inches)
+                profileViewModel.updateBMI()
+                profileViewModel.updateCalorieGoals()
             }
         }
 
@@ -71,7 +71,8 @@ class ProfileFragment : Fragment() {
         }
         ageButton.setOnClickListener {
             showNumberPickerDialog("Select Age", 13, 110) { selectedAge ->
-                profileViewModel.setAge(selectedAge) // Store as Int
+                profileViewModel.setAge(selectedAge)
+                profileViewModel.updateCalorieGoals()
             }
         }
 
@@ -83,29 +84,56 @@ class ProfileFragment : Fragment() {
             val sexOptions = listOf("Male", "Female")
             showChoiceDialog("Select Sex", sexOptions) { selectedSex ->
                 profileViewModel.setSex(selectedSex)
+                profileViewModel.updateCalorieGoals()
             }
         }
-
         // *** Activity Level Button ***
         profileViewModel.activityLevel.observe(viewLifecycleOwner) { newActivityLevel ->
             activityLevelButton.text = "Activity Level: $newActivityLevel"
         }
         activityLevelButton.setOnClickListener {
-            val activityOptions = listOf("Sedentary", "Lightly Active", "Moderately Active",
-                "Active", "Very Active")
+            val activityOptions = listOf("Sedentary", "Lightly Active", "Moderately Active", "Active", "Very Active")
             showChoiceDialog("Select Activity Level", activityOptions) { selectedActivity ->
                 profileViewModel.setActivityLevel(selectedActivity)
+                profileViewModel.updateCalorieGoals()
             }
         }
 
-        // Observe and update BMI & Ideal Weight
-        profileViewModel.bmi.observe(viewLifecycleOwner) { newBMI ->
-            bmiTextView.text = "BMI: $newBMI"
-        }
-        profileViewModel.idealWeightRange.observe(viewLifecycleOwner) { idealWeight ->
-            idealWeightTextView.text = "Ideal Weight: $idealWeight"
+        // Observe BMI and update text
+        profileViewModel.bmi.observe(viewLifecycleOwner) { bmi ->
+            binding.bmiText.text = "BMI: $bmi"
         }
 
+        // Update calorie suggestions
+        profileViewModel.calorieGoals.observe(viewLifecycleOwner) { goals ->
+            val weight = profileViewModel.weight.value
+            val feet = profileViewModel.heightFeet.value
+            val inches = profileViewModel.heightInches.value
+            val age = profileViewModel.age.value
+            val sex = profileViewModel.sex.value
+            val activity = profileViewModel.activityLevel.value
+
+            val missingInputs = mutableListOf<String>()
+
+            if (weight == null || weight == 0) missingInputs.add("weight")
+            if (feet == null || feet == 0 || inches == null) missingInputs.add("height")
+            if (age == null || age == 0) missingInputs.add("age")
+            if (sex == null || sex == "N/A") missingInputs.add("sex")
+            if (activity == null || activity == "N/A") missingInputs.add("activity level")
+
+            if (missingInputs.isNotEmpty()) {
+                val message = "Please enter ${missingInputs.joinToString(", ")}"
+                binding.caloricSuggestionTextView.text = message
+            } else {
+                val text = """
+            Maintain: ${goals.maintain} kcal
+            Mild Loss: ${goals.mildLoss} kcal
+            Loss: ${goals.loss} kcal
+            Extreme Loss: ${goals.extremeLoss} kcal
+        """.trimIndent()
+                binding.caloricSuggestionTextView.text = text
+            }
+        }
 
         return root
     }
