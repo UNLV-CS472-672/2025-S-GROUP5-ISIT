@@ -88,7 +88,7 @@ data class UserProfile(
      *
      * @param newDateOfBirth the new date of birth of the user.
      */
-    fun setDateOfBirth(newDateOfBirth: LocalDate) {
+    fun updateDateOfBirth(newDateOfBirth: LocalDate) {
         dateOfBirth = newDateOfBirth
     }
 
@@ -97,7 +97,7 @@ data class UserProfile(
      *
      * @param newSex the new Sex of the user.
      */
-    fun setSex(newSex: Sex) {
+    fun updateSex(newSex: Sex) {
         sex = newSex
     }
 
