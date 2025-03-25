@@ -17,19 +17,23 @@ import android.util.Log
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.view.PreviewView
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class CameraXFeatures(private val context:Context, private val lifecycleOwner: LifecycleOwner,
-                      private val previewView : PreviewView)
+                      private val previewView : PreviewView
+): DefaultLifecycleObserver
 {
 
     private var imageCapture : ImageCapture? = null
 
-    //created a thread so the main thread isnt used
-    private var cameraExecutor: ExecutorService =
-        Executors.newSingleThreadExecutor()
+    //created a thread so the main thread and only when needed
+    private val cameraExecutor: ExecutorService by lazy {
+        Executors.newSingleThreadExecutor()}
+
+    init{ lifecycleOwner.lifecycle.addObserver(this) }
 
     // Starts the camera
     fun startCamera(){
@@ -94,9 +98,10 @@ class CameraXFeatures(private val context:Context, private val lifecycleOwner: L
 
 
 
-    //Destroyed the thread once is done
-    fun onDestroy() {
+    //Destroyed the thread automatically
+    override fun onDestroy(owner: LifecycleOwner) {
         cameraExecutor.shutdown()
+        Log.d(TAG, "Camera Executor shut down")
     }
     companion object{
         private const val TAG = "Ingredi"
