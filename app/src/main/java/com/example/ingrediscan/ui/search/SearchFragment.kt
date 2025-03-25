@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.SearchView
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.ingrediscan.databinding.FragmentScanBinding
+import com.example.ingrediscan.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment() {
 
-    private var _binding: FragmentScanBinding? = null
+    private var _binding: FragmentSearchBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,17 +24,44 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val scanViewModel =
+        val searchViewModel =
             ViewModelProvider(this).get(SearchViewModel::class.java)
 
-        _binding = FragmentScanBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val searchTitleTextView: TextView = binding.searchTitle
 
-//        val textView: TextView = binding.textScan
-//        scanViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
+        searchTitleTextView.text = "Search"
+
         return root
+    }
+    
+    // Display search bar after start up
+    override fun onViewCreated(
+        view: View, 
+        savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Set up the SearchView
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            
+            // Call the function when user submits a search
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { performSearch(it) } 
+                return true
+            }
+
+            // Future TODO: filter results live as the user types (set to false right now)
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+    }
+
+    // Future TODO: Implement search logic 
+    private fun performSearch(query: String) {
+        Log.d("SearchFragment", "Searching for: $query")
     }
 
     override fun onDestroyView() {
