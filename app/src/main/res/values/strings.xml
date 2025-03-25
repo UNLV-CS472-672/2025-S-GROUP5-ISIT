@@ -23,4 +23,5 @@
     <string name="PlusIcon">+</string>
     <string name="log_a_meal_for_dinner">Log A Meal for Dinner</string>
     <string name="log_a_meal_for_snack">Log A Meal for Snack</string>
+    <string name="read_more"><u>Read more</u></string>
 </resources>
