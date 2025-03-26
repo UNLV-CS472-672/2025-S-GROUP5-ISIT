@@ -16,13 +16,17 @@ import java.util.UUID
  * @property password User's password (hashed and salted).
  * @property createdAt Timestamp indicating when the user was created.
  * @property updatedAt Timestamp indicating the last time the user's data was updated.
+ *
+ * @property userScannedData A list of user's scanned data.
  */
-data class User(
+class User(
     private val userId: UUID = UUID.randomUUID(),
     val email: Email,
     val password: Password,
     val createdAt: LocalDate = LocalDate.now(),
     val updatedAt: LocalDate = LocalDate.now(),
+
+    private val userScannedData: MutableList<ScannedItem> = mutableListOf()
 ) {
     init {
         // Basic validation upon creating a user. May need to add requirements as proj progresses
@@ -42,6 +46,63 @@ data class User(
          */
         fun createUser(email: Email, password: Password): User {
             return User(email = email, password = password)
+        }
+    }
+
+    /**
+     * Getter for user to access/retrieve the list of scanned item.
+     *
+     * @return the list of user's list of scanned item.
+     */
+    fun getScannedData(): List<ScannedItem>{
+        return userScannedData.toList()
+    }
+
+    /**
+     * For user to add a new scanned item into the list.
+     *
+     * @param newItem an object of ScannedItem.
+     */
+    fun addScannedItem(newItem: ScannedItem) {
+        userScannedData.add(newItem)
+    }
+
+    /**
+     * Method to remove an item from the userScannedData list.
+     *
+     * @param id the itemID of the the scannedItem.
+     * @return true if the id can be found in the list and remove the scannedItem from list,
+     *         false if the id can't be found
+     */
+    fun removeScannedItem(id: Int): Boolean {
+        val index = userScannedData.indexOfFirst { it.itemID == id }
+
+        return if (index != -1) {
+            userScannedData.removeAt(index)
+            true
+        } else {
+            // maybe needed to print out an error message
+            false  // Item not found
+        }
+    }
+
+    /**
+     * Method to modify/update an scanned item by using scanned item id.
+     *
+     * @param id the itemID of the the scannedItem.
+     * @param newItem an object of ScannedItem.
+     * @return true if the id can be found in the list and update that scannedItem,
+     *         false if the id can't be found
+     */
+    fun updateAddress(id: Int, newItem: ScannedItem): Boolean {
+        val index = userScannedData.indexOfFirst { it.itemID == id }
+
+        return if (index != -1) {
+            userScannedData[index] = newItem
+            true
+        } else {
+            // maybe needed to print out an error message
+            false  // Item not found
         }
     }
 }
