@@ -94,7 +94,7 @@ class User(
      * @return true if the id can be found in the list and update that scannedItem,
      *         false if the id can't be found
      */
-    fun updateAddress(id: Int, newItem: ScannedItem): Boolean {
+    fun updateScannedItem(id: Int, newItem: ScannedItem): Boolean {
         val index = userScannedData.indexOfFirst { it.itemID == id }
 
         return if (index != -1) {
