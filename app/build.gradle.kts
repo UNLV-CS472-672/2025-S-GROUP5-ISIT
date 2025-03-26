@@ -97,4 +97,15 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.9.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    
+        //CamaraX Dependencies
+    val cameraVersions = "1.4.1"
+    implementation("androidx.camera:camera-core:${cameraVersions}")
+    implementation("androidx.camera:camera-camera2:${cameraVersions}")
+    implementation("androidx.camera:camera-lifecycle:${cameraVersions}")
+    implementation("androidx.camera:camera-view:${cameraVersions}")
+    implementation("androidx.camera:camera-extensions:${cameraVersions}")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation ("androidx.appcompat:appcompat:1.7.0")
+
 }
