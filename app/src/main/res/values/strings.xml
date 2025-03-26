@@ -29,4 +29,13 @@
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
     <string name="read_more"><u>Read more</u></string>
+    <string name="profile_image">Profile Image</string>
+    <string name="profile_weight">Weight: 0.00 LBS</string>
+    <string name="profile_height">Height: 0 00</string>
+    <string name="profile_age">Age: 00 years</string>
+    <string name="profile_sex">Sex: N/A</string>
+    <string name="profile_activity_level">Activity Level: N/A</string>
+    <string name="profile_BMI">BMI: </string>
+    <string name="profile_banner">Profile Banner</string>
+    <string name="profile_suggested_calories">Suggested Calories</string>
 </resources>
