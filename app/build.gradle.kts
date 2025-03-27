@@ -54,9 +54,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.vision.common)
-    implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.1")
     implementation(libs.kotlinx.coroutines.play.services)
     testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -71,14 +71,22 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // Dependencies for OCR and Barcode
+    implementation (libs.barcode.scanning)
+    implementation (libs.text.recognition)
+
+
     // Dependencies for ApiCalls.kt
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
     // Dependencies for FoodApiServiceTest.kt
     // Unit Testing
     testImplementation("junit:junit:4.13.2")
+    testImplementation ("androidx.test:core:1.5.0")
     // Coroutines Test
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation ("org.robolectric:robolectric:4.10")
     // Retrofit + MockWebServer for API testing
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
     // Truth library for better assertions
