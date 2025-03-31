@@ -12,3 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val lightGreen = Color(0xFF53BD64)
 val DarkBackgroundColor = Color(0xFF121212)
+val DarkForegroundColor = Color(0xFF232323)
+
+val GoodGrade = Color(0xFF9362D7)
+val LightGoodGrade = Color(0xFF8642E7)
