@@ -9,6 +9,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.ingrediscan.databinding.FragmentHomeBinding
+import androidx.navigation.fragment.findNavController
+import com.example.ingrediscan.R
+
 
 class HomeFragment : Fragment() {
 
@@ -47,6 +50,30 @@ class HomeFragment : Fragment() {
         appNameTextView.text = "IngrediScan"
         taglineTextView.text = "Nutrition transparency at your fingertips"
 
+        // Find the button and set the click listener
+        val breakfastAddButton: View = binding.BreakfastAddButton
+        breakfastAddButton.setOnClickListener {
+            // Navigate to LogMealBySearchFragment from Log Meal for Breakfast button
+            findNavController().navigate(R.id.navigation_log_meal_by_search)
+        }
+
+        val lunchAddButton : View = binding.LunchAddButton
+        lunchAddButton.setOnClickListener {
+            // Navigate to LogMealBySearchFragment from Log Meal for Lunch button
+            findNavController().navigate(R.id.navigation_log_meal_by_search)
+        }
+
+        val dinnerAddButton : View = binding.DinnerAddButton
+        dinnerAddButton.setOnClickListener {
+            // Navigate to LogMealBySearchFragment from Log Meal for Dinner button
+            findNavController().navigate(R.id.navigation_log_meal_by_search)
+        }
+
+        val snackAddButton : View = binding.SnackAddButton
+        snackAddButton.setOnClickListener {
+            //Navigate to LogMealBySearchFragment from Log Meal for Snack Button
+            findNavController().navigate(R.id.navigation_log_meal_by_search)
+        }
 
         return root
     }
