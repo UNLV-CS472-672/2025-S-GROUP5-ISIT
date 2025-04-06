@@ -1,9 +1,14 @@
 package com.example.ingrediscan
-
+import android.content.pm.PackageManager
+import android.graphics.Camera
+import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -14,14 +19,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.ingrediscan.ui.theme.IngrediScanTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.camera.view.PreviewView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.ingrediscan.databinding.ActivityMainBinding
 
+import com.example.ingrediscan.Camera.CameraXFeatures
 //generate the highest level of the front page & other elements
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        //obtains the necessary permissions for camera and storage
+        // if sdk is 28 or below it will ask for storage permission
+        private val REQUIRED_PERMISSIONS: Array<String> =
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                CameraXFeatures.REQUIRED_PERMISSIONS
+            } else {
+                CameraXFeatures.REQUIRED_PERMISSIONS.filter {
+                    it != "android.permission.WRITE_EXTERNAL_STORAGE"
+                }.toTypedArray()
+            }
+    }
+
 
     private lateinit var binding: ActivityMainBinding
 
@@ -30,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         val navView: BottomNavigationView = binding.navView
 
@@ -45,5 +69,27 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        //if permissions are granted it will ask for camera permissions
+        if(!allPermissionsGranted()){
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+        }
+    }
+    //helper function
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(this,it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    //prompts user to accepts permissions if not it will display permissions not granted
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == REQUEST_CODE_PERMISSIONS){
+            if(!allPermissionsGranted()) {
+                Toast.makeText(this, "Permissions not granted", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
     }
 }
