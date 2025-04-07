@@ -35,4 +35,10 @@
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 
+    <fragment
+        android:id="@+id/navigation_log_meal_by_search"
+        android:name="com.example.ingrediscan.ui.logMealPage.LogMealBySearchFragment"
+        android:label="Log Meal By Search"
+        tools:layout="@layout/fragment_log_meal_by_search" />
+
 </navigation>
