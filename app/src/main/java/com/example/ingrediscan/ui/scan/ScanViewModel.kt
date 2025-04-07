@@ -44,9 +44,10 @@ class ScanViewModel : ViewModel() {
         // Logic to turn on or off flash
     }
 
-    fun onArrowClick() {
+    fun onArrowClick(navigateHome: () -> Unit) {
         // Logic to handle the back arrow click
         // Example: Navigate back
+        navigateHome()
     }
 
     fun onSettingsClick() {
