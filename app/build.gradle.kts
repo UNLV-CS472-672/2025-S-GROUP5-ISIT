@@ -1,3 +1,15 @@
+// ADDED THIS SECTION FOR API KEY STORAGE
+import java.util.Properties
+// Create an instance of Properties to hold our loaded key-value pairs
+val localProperties = Properties()
+// Get a reference to the local.properties file in the root of the project
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    // Load the contents of the local.properties file into the Properties object
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
@@ -19,6 +31,18 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // USED FOR API KEY STORAGE
+        // Inject my API key as a build config field
+        buildConfigField(
+            "String",
+            "USDA_API_KEY",
+            "\"${localProperties["USDA_API_KEY"]}\""
+        )
+
+        buildFeatures {
+            buildConfig = true
+        }
     }
 
     buildTypes {
@@ -72,6 +96,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // Dependencies for OCR and Barcode
+    implementation("com.google.mlkit:barcode-scanning:17.2.0")
     implementation (libs.barcode.scanning)
     implementation (libs.text.recognition)
 
