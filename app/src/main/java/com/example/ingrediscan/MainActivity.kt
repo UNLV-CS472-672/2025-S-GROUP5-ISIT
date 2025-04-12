@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        
         // Hide the BottomNavigationView when the scan destination is displayed
         // Lines inside the if statement are for removing the action bar (if needed)
         navController.addOnDestinationChangedListener { navController, destination, arguments ->
@@ -59,5 +60,39 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //if permissions are granted it will ask for camera permissions
+        if(!allPermissionsGranted()){
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+        }
     }
+    //helper function
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(this,it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    /**
+     * Called when a permission request has been completed.
+     *
+     * This function is invoked after the user responds to a runtime permission request.
+     * It checks if all requested permissions have been granted. If any permission is denied,
+     * a toast message is displayed to inform the user, and the activity is closed.
+     *
+     * @param requestCode The integer request code originally supplied to [ActivityCompat.requestPermissions],
+     *                    allowing you to identify which permission request this result corresponds to.
+     * @param permissions An array of the requested permissions.
+     * @param grantResults An array of results for the corresponding permissions, where each entry is either
+     *                     [PackageManager.PERMISSION_GRANTED] or [PackageManager.PERMISSION_DENIED].
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (!allPermissionsGranted()) {
+                Toast.makeText(this, "Permissions not granted", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
+    }
+
 }
