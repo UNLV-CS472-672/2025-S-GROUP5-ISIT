@@ -107,7 +107,7 @@ class CameraXFeatures(private val context:Context, private val lifecycleOwner: L
         private const val TAG = "Ingredi"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSSS"
         val REQUIRED_PERMISSIONS =
-            arrayOf( Manifest.permission.CAMERA)
+            arrayOf( Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
 }
