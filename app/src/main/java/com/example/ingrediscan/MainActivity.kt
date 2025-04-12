@@ -31,7 +31,20 @@ import com.example.ingrediscan.Camera.CameraXFeatures
 //generate the highest level of the front page & other elements
 class MainActivity : AppCompatActivity() {
 
+    /**
+     * Companion object containing constants for runtime permission management.
+     *
+     * @property REQUEST_CODE_PERMISSIONS An arbitrary request code used to identify the permission request.
+     * When you initiate a permission request, this code is sent and later returned to help you determine
+     * which request is being responded to.
+     *
+     * @property REQUIRED_PERMISSIONS An array of required permission strings. This array is defined using the
+     * permissions provided by [CameraXFeatures]. For devices running Android Pie (API 28) or lower, the array includes
+     * both CAMERA and WRITE_EXTERNAL_STORAGE permissions. For devices running Android 10 (API 29) or higher,
+     * WRITE_EXTERNAL_STORAGE is excluded, since scoped storage is used and that permission is no longer required.
+     */
     companion object {
+        // 10 is just a unique random number could be any number
         private const val REQUEST_CODE_PERMISSIONS = 10
         //obtains the necessary permissions for camera and storage
         // if sdk is 28 or below it will ask for storage permission
@@ -80,7 +93,19 @@ class MainActivity : AppCompatActivity() {
         ContextCompat.checkSelfPermission(this,it) == PackageManager.PERMISSION_GRANTED
     }
 
-    //prompts user to accepts permissions if not it will display permissions not granted
+    /**
+     * Called when a permission request has been completed.
+     *
+     * This function is invoked after the user responds to a runtime permission request.
+     * It checks if all requested permissions have been granted. If any permission is denied,
+     * a toast message is displayed to inform the user, and the activity is closed.
+     *
+     * @param requestCode The integer request code originally supplied to [ActivityCompat.requestPermissions],
+     *                    allowing you to identify which permission request this result corresponds to.
+     * @param permissions An array of the requested permissions.
+     * @param grantResults An array of results for the corresponding permissions, where each entry is either
+     *                     [PackageManager.PERMISSION_GRANTED] or [PackageManager.PERMISSION_DENIED].
+     */
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ){
