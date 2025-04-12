@@ -84,6 +84,19 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+
+        // Hide the BottomNavigationView when the scan destination is displayed
+        // Lines inside the if statement are for removing the action bar (if needed)
+        navController.addOnDestinationChangedListener { navController, destination, arguments ->
+            if (destination.id == R.id.navigation_scan) {
+                binding.navView.visibility = View.GONE
+//                supportActionBar?.hide()
+            } else {
+                binding.navView.visibility = View.VISIBLE
+//                supportActionBar?.show()
+            }
+        }
+
         //if permissions are granted it will ask for camera permissions
         if(!allPermissionsGranted()){
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
@@ -109,26 +122,14 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
-    ){
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == REQUEST_CODE_PERMISSIONS){
-            if(!allPermissionsGranted()) {
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (!allPermissionsGranted()) {
                 Toast.makeText(this, "Permissions not granted", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
-
-        // Hide the BottomNavigationView when the scan destination is displayed
-        // Lines inside the if statement are for removing the action bar (if needed)
-        navController.addOnDestinationChangedListener { navController, destination, arguments ->
-            if (destination.id == R.id.navigation_scan) {
-                binding.navView.visibility = View.GONE
-//                supportActionBar?.hide()
-            } else {
-                binding.navView.visibility = View.VISIBLE
-//                supportActionBar?.show()
-            }
-        }
-
     }
+
 }
