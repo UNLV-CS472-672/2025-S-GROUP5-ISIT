@@ -1,15 +1,10 @@
 package com.example.ingrediscan
-import android.content.pm.PackageManager
-import android.graphics.Camera
-import android.os.Build
+
 import android.os.Bundle
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -20,45 +15,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.ingrediscan.ui.theme.IngrediScanTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.camera.view.PreviewView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.ingrediscan.databinding.ActivityMainBinding
 
-import com.example.ingrediscan.Camera.CameraXFeatures
 //generate the highest level of the front page & other elements
 class MainActivity : AppCompatActivity() {
-
-    /**
-     * Companion object containing constants for runtime permission management.
-     *
-     * @property REQUEST_CODE_PERMISSIONS An arbitrary request code used to identify the permission request.
-     * When you initiate a permission request, this code is sent and later returned to help you determine
-     * which request is being responded to.
-     *
-     * @property REQUIRED_PERMISSIONS An array of required permission strings. This array is defined using the
-     * permissions provided by [CameraXFeatures]. For devices running Android Pie (API 28) or lower, the array includes
-     * both CAMERA and WRITE_EXTERNAL_STORAGE permissions. For devices running Android 10 (API 29) or higher,
-     * WRITE_EXTERNAL_STORAGE is excluded, since scoped storage is used and that permission is no longer required.
-     */
-    companion object {
-        // 10 is just a unique random number could be any number
-        private const val REQUEST_CODE_PERMISSIONS = 10
-        //obtains the necessary permissions for camera and storage
-        // if sdk is 28 or below it will ask for storage permission
-        private val REQUIRED_PERMISSIONS: Array<String> =
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                CameraXFeatures.REQUIRED_PERMISSIONS
-            } else {
-                CameraXFeatures.REQUIRED_PERMISSIONS.filter {
-                    it != "android.permission.WRITE_EXTERNAL_STORAGE"
-                }.toTypedArray()
-            }
-    }
-
 
     private lateinit var binding: ActivityMainBinding
 
@@ -67,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         val navView: BottomNavigationView = binding.navView
 
@@ -84,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-
+        
         // Hide the BottomNavigationView when the scan destination is displayed
         // Lines inside the if statement are for removing the action bar (if needed)
         navController.addOnDestinationChangedListener { navController, destination, arguments ->
