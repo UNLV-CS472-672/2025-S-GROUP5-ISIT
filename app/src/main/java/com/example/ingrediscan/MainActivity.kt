@@ -33,6 +33,33 @@ import com.example.ingrediscan.Camera.CameraXFeatures
 //generate the highest level of the front page & other elements
 class MainActivity : AppCompatActivity() {
 
+        /**
+     * Companion object containing constants for runtime permission management.
+     *
+     * @property REQUEST_CODE_PERMISSIONS An arbitrary request code used to identify the permission request.
+     * When you initiate a permission request, this code is sent and later returned to help you determine
+     * which request is being responded to.
+     *
+     * @property REQUIRED_PERMISSIONS An array of required permission strings. This array is defined using the
+     * permissions provided by [CameraXFeatures]. For devices running Android Pie (API 28) or lower, the array includes
+     * both CAMERA and WRITE_EXTERNAL_STORAGE permissions. For devices running Android 10 (API 29) or higher,
+     * WRITE_EXTERNAL_STORAGE is excluded, since scoped storage is used and that permission is no longer required.
+     */
+    companion object {
+        // 10 is just a unique random number could be any number
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        //obtains the necessary permissions for camera and storage
+        // if sdk is 28 or below it will ask for storage permission
+        private val REQUIRED_PERMISSIONS: Array<String> =
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                CameraXFeatures.REQUIRED_PERMISSIONS
+            } else {
+                CameraXFeatures.REQUIRED_PERMISSIONS.filter {
+                    it != "android.permission.WRITE_EXTERNAL_STORAGE"
+                }.toTypedArray()
+            }
+    }
+    
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
