@@ -39,12 +39,18 @@ import com.example.ingrediscan.R
 import com.example.ingrediscan.ui.theme.lightGreen
 
 @Composable
-fun ScanScreen(viewModel: ScanViewModel = viewModel()) {
-    BoxWithCutout(viewModel)
+fun ScanScreen(
+    viewModel: ScanViewModel = viewModel(),
+    onNavigateHome: () -> Unit
+) {
+    BoxWithCutout(viewModel, onNavigateHome)
 }
 
 @Composable
-fun BoxWithCutout(viewModel: ScanViewModel) {
+fun BoxWithCutout(
+    viewModel: ScanViewModel,
+    onNavigateHome: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -104,11 +110,13 @@ fun BoxWithCutout(viewModel: ScanViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Default.ArrowBack, // Choose your arrow icon
-                contentDescription = "Arrow Icon", // Accessibility description
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "Arrow Icon",
                 modifier = Modifier
                     .size(40.dp)
-                    .clickable { viewModel.onArrowClick() },
+                    .clickable {
+                        viewModel.onArrowClick(onNavigateHome)
+                    },
                 tint = Color.White
             )
             Image(
