@@ -101,6 +101,17 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
     }
+
+
+    // This method ensures the back arrow works correctly
+    //GenAI Start
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+    //GenAI End
+}
+
     //helper function
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(this,it) == PackageManager.PERMISSION_GRANTED
@@ -132,3 +143,4 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
