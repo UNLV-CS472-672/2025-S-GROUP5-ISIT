@@ -41,13 +41,14 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:contentDescription="@string/profile_image"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_profile_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.093" />
+        app:layout_constraintVertical_bias="0.113" />
 
     <Button
         android:id="@+id/profileButtonWeight"
