@@ -38,4 +38,5 @@
     <string name="profile_sex">Sex: %1$s</string>
     <string name="profile_activity_level">Activity Level: %1$s</string>
     <string name="profile_BMI">BMI: %1$.1f</string>
+    <string name="title_search_to_log_a_meal">Search To Log A Meal</string>
 </resources>
