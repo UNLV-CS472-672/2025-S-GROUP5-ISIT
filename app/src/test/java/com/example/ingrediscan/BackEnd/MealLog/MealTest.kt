@@ -1,14 +1,13 @@
 package com.example.ingrediscan.BackEnd.MealLog
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-
+import org.junit.Test
+import org.junit.Assert.*
+import org.junit.Before
 /** Unit Test for MealLogManager*/
 
 class MealTest {
     private lateinit var mealLog : MealLog
 
-    @BeforeEach
+    @Before
     fun setUp(){
         mealLog = MealLog()
         mealLog.setCalorieGoal(3000)
@@ -16,7 +15,7 @@ class MealTest {
 
     /** test inital state of MealLog*/
     @Test
-    fun `test initial state`(){
+    fun testInitialState(){
         assertEquals(3000,mealLog.caloriesLeft())
         assertFalse(mealLog.caloriesOver())
         assertEquals(0,mealLog.getTotalConsumed())
@@ -24,34 +23,34 @@ class MealTest {
 
     /**test adddes a meal and gives the calories left*/
     @Test
-    fun `test adding a meal and checks total and remaining calories`(){
+    fun testAddingAmealAndChecksTotatAndRemainingCalories(){
         mealLog.logMeal(500, MealType.LUNCH, "Steak Salad")
-        assertEquals(500, mealLog.getTotalConsumed(), "should be equal")
-        assertEquals(2500, mealLog.caloriesLeft(),"calories should be 2500 left")
-        assertFalse(mealLog.caloriesOver(), "total calories have not been exceeded")
+        assertEquals("should be equal",500, mealLog.getTotalConsumed() )
+        assertEquals("calories should be 2500 left",2500, mealLog.caloriesLeft())
+        assertFalse("total calories have not been exceeded",mealLog.caloriesOver() )
     }
     /** Test that exceeds the calories goals trigger an over status*/
     @Test
-    fun `test calorie limit over`(){
+    fun testCalorieLimitOver(){
         mealLog.logMeal(3500, MealType.MEAL, "Mcdonalds")
-        assertTrue(mealLog.caloriesOver(),"Should be true if calories consumed exceed daily calories")
-        assertEquals(0, mealLog.caloriesLeft(), "should be zero")
+        assertTrue("Should be true if calories consumed exceed daily calories",mealLog.caloriesOver())
+        assertEquals("should be zero",0, mealLog.caloriesLeft() )
     }
 
     /** test to remove the last meal*/
     @Test
-    fun `removes the last meal`(){
+    fun removesTheLastMeal(){
         mealLog.logMeal(1000, MealType.SNACK, "Spicy Mcchicken")
         mealLog.logMeal(1500, MealType.DINNER, "Pineapple Pizza")
-        assertEquals(2500, mealLog.getTotalConsumed(), "1000+1500 = 2500")
+        assertEquals("1000+1500 = 2500",2500, mealLog.getTotalConsumed())
 
         //should remove pizza
         mealLog.removeLastMeal()
-        assertEquals(1000, mealLog.getTotalConsumed(),"Mcchicken should be left 1000 cals")
+        assertEquals("Mcchicken should be left 1000 cals",1000, mealLog.getTotalConsumed())
 
         //remove remaining
         mealLog.removeLastMeal()
-        assertEquals(0,mealLog.getTotalConsumed(), "should be zero")
+        assertEquals("should be zero",0,mealLog.getTotalConsumed() )
     }
 
 }
