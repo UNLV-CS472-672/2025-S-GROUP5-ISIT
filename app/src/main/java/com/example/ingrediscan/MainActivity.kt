@@ -113,9 +113,11 @@ class MainActivity : AppCompatActivity() {
 }
 
     //helper function
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+    fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(this,it) == PackageManager.PERMISSION_GRANTED
     }
+
+
 
     /**
      * Called when a permission request has been completed.
