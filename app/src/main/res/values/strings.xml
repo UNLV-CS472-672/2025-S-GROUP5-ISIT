@@ -12,10 +12,10 @@
     <string name="subHeader">Nutrition transparency at your fingertips</string>
     <string name="calories_tracked_today">Calories Tracked Today</string>
     <string name="latest_food">Latest Food</string>
-    <string name="food_item_1_200_cal">Food Item 1 – 200 cal</string>
-    <string name="food_item_2_300_cal">Food Item 2 – 300 cal</string>
-    <string name="food_item_3_223_cal">Food Item 3 – 223 cal</string>
-    <string name="food_item_4_400_cal">Food Item 4 – 400 cal</string>
+    <string name="food_item_1_200_cal">Food Item 1 - 200 cal</string>
+    <string name="food_item_2_300_cal">Food Item 2 - 300 cal</string>
+    <string name="food_item_3_223_cal">Food Item 3 - 223 cal</string>
+    <string name="food_item_4_400_cal">Food Item 4 - 400 cal</string>
     <string name="tutorial">Tutorial</string>
     <string name="log_a_meal_for_breakfast">Log A Meal for Breakfast</string>
     <string name="Plus_Icon">+</string>
@@ -30,13 +30,13 @@
     <string name="signup">Sign Up</string>
     <string name="read_more"><u>Read more</u></string>
     <string name="profile_image">Profile Image</string>
+    <string name="profile_weight">Weight: 0.00 LBS</string>
+    <string name="profile_height">Height: 0 00</string>
+    <string name="profile_age">Age: 00 years</string>
+    <string name="profile_sex">Sex: N/A</string>
+    <string name="profile_activity_level">Activity Level: N/A</string>
+    <string name="profile_BMI">BMI: </string>
     <string name="profile_banner">Profile Banner</string>
     <string name="profile_suggested_calories">Suggested Calories</string>
-    <string name="profile_weight">Weight: %1$d lbs</string>
-    <string name="profile_height">Height: %1$d\'%2$d"</string>
-    <string name="profile_age">Age: %1$d years</string>
-    <string name="profile_sex">Sex: %1$s</string>
-    <string name="profile_activity_level">Activity Level: %1$s</string>
-    <string name="profile_BMI">BMI: %1$.1f</string>
     <string name="title_search_to_log_a_meal">Search To Log A Meal</string>
 </resources>

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.ingrediscan.R
 import com.example.ingrediscan.databinding.FragmentProfileBinding
 import com.example.ingrediscan.utils.*
 
@@ -45,7 +44,7 @@ class ProfileFragment : Fragment() {
 
         // *** Weight Button ***
         profileViewModel.weight.observe(viewLifecycleOwner) { newWeight ->
-            weightButton.text = getString(R.string.profile_weight, newWeight)
+            weightButton.text = "Weight: $newWeight lbs"
         }
         weightButton.setOnClickListener {
             showNumberPickerDialog("Enter Weight", 50, 500) { weight ->
@@ -58,7 +57,7 @@ class ProfileFragment : Fragment() {
         // *** Height Button ***
         profileViewModel.heightFeet.observe(viewLifecycleOwner) { feet ->
             profileViewModel.heightInches.observe(viewLifecycleOwner) { inches ->
-                heightButton.text = getString(R.string.profile_height, feet, inches)
+                heightButton.text = "Height: ${feet}'${inches}\""
             }
         }
         heightButton.setOnClickListener {
@@ -70,8 +69,8 @@ class ProfileFragment : Fragment() {
         }
 
         // *** Age Button ***
-        profileViewModel.age.observe(viewLifecycleOwner) { age ->
-            ageButton.text = getString(R.string.profile_age, age)
+        profileViewModel.age.observe(viewLifecycleOwner) { newAge ->
+            ageButton.text = "Age: $newAge years"
         }
         ageButton.setOnClickListener {
             showNumberPickerDialog("Select Age", 13, 110) { age ->
@@ -81,8 +80,8 @@ class ProfileFragment : Fragment() {
         }
 
         // *** Sex Button ***
-        profileViewModel.sex.observe(viewLifecycleOwner) { sex ->
-            sexButton.text = getString(R.string.profile_sex, sex)
+        profileViewModel.sex.observe(viewLifecycleOwner) { newSex ->
+            sexButton.text = "Sex: $newSex"
         }
         sexButton.setOnClickListener {
             showChoiceDialog("Select Sex", listOf("Male", "Female")) { selectedSex ->
@@ -92,8 +91,8 @@ class ProfileFragment : Fragment() {
         }
 
         // *** Activity Level Button ***
-        profileViewModel.activityLevel.observe(viewLifecycleOwner) { level ->
-            activityLevelButton.text = getString(R.string.profile_activity_level, level)
+        profileViewModel.activityLevel.observe(viewLifecycleOwner) { newActivityLevel ->
+            activityLevelButton.text = "Activity Level: $newActivityLevel"
         }
         activityLevelButton.setOnClickListener {
             val levels = listOf("Sedentary", "Lightly Active", "Moderately Active", "Active", "Very Active")
@@ -105,7 +104,7 @@ class ProfileFragment : Fragment() {
 
         // *** BMI Text ***
         profileViewModel.bmi.observe(viewLifecycleOwner) { bmi ->
-            binding.bmiText.text = getString(R.string.profile_BMI, bmi)
+            binding.bmiText.text = "BMI: $bmi"
         }
 
         // *** Calorie Suggestions ***
