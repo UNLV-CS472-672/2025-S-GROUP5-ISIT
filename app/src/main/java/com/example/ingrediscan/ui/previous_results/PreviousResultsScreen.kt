@@ -3,6 +3,7 @@ package com.example.ingrediscan.ui.previous_results
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -22,6 +23,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -58,26 +61,21 @@ fun PreviousResultsScreen(viewModel: PreviousResultsViewModel = viewModel()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(60.dp)
+                    .height(70.dp)
                     .background(Color.White)
-                    .padding(5.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) { // Left side: account icon
-                IconButton(
-                    onClick = { viewModel.onAccountClick() },
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.portrait),
-                        contentDescription = "Account Icon",
-                        modifier = Modifier.size(30.dp)
+                    .border(
+                        width = 1.dp,
+                        brush = SolidColor(Color.DarkGray),
+                        shape = RectangleShape
                     )
-                }
-                // Right side: dropdown menu for selecting a scanned item
+                    .padding(top = 22.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                // dropdown menu for selecting a scanned item
                 Box {
                     TextButton(onClick = { expanded = true }) {
-                        Text(text = selectedItem?.name ?: "Select Scan", fontSize = 18.sp)
+                        Text(text = selectedItem?.name ?: "Select Scan", fontSize = 25.sp)
                     }
                     // Dropdown menu with all scanned items
                     DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
@@ -98,15 +96,16 @@ fun PreviousResultsScreen(viewModel: PreviousResultsViewModel = viewModel()) {
         // 2. Scrollable Content Below Top Bar
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .height(770.dp)
                 .padding(top = 70.dp) // Account for top bar
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 16.dp)
         ) {
             // 3. Calorie Summary Box
             selectedItem?.let { item ->
                 // Calorie Summary for selected item only
                 item {
+                    Spacer(modifier = Modifier.height(16.dp))
                     CalBox(
                         totalCalories = item.calories,
                         protein = item.protein,
@@ -116,7 +115,7 @@ fun PreviousResultsScreen(viewModel: PreviousResultsViewModel = viewModel()) {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
-            // 4. All Scanned Items (BlueBoxes)
+                // 4. All Scanned Items (BlueBoxes)
                 item {
                     BlueBox(
                         name = item.name,
@@ -232,7 +231,7 @@ private fun BlueBox(
                 )
                 Text(
                     text = brand,
-                    fontSize = 18.sp,
+                    fontSize = 20.sp,
                     color = Color.Black
                 )
                 Spacer(modifier = Modifier.height(10.dp))
@@ -243,13 +242,17 @@ private fun BlueBox(
                         append("Carbs: ${carbs}g\n")
                         append("Fat: ${fat}g")
                     },
-                    fontSize = 18.sp,
+                    fontSize = 20.sp,
                     color = Color.Black
                 )
             }
 
             // Right side: Share icon + grade bubble
-            Column {
+            Column (
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .align(Alignment.Top)
+            ){
                 Image(
                     painter = painterResource(id = R.drawable.share),
                     contentDescription = "Share",
@@ -295,13 +298,19 @@ private fun HistoryBox(items: List<ScannedItem>) {
                 )
             }
 
-            // List each scanned item's name
-            items.forEach { item ->
-                Text(
-                    text = item.name,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(5.dp)
-                )
+            // Scrollable list of items
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(5.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                items(items.size) { index ->
+                    Text(
+                        text = items[index].name,
+                        fontSize = 24.sp
+                    )
+                }
             }
         }
     }
@@ -316,6 +325,7 @@ private fun ManualLog() {
             .height(80.dp)
             .clip(shape = RoundedCornerShape(10.dp))
             .background(DarkForegroundColor)
+            .clickable { } // Dialog to enter manually
     ) {
         // Cutout circle for design
         Canvas(
@@ -431,8 +441,10 @@ private fun NutrientProgressBar(
 // ====== GRADE BADGE (WAVY CIRCLE) ======
 @Composable
 private fun WavyCircleExample(text: String) {
+    // Calculate colors based on grade
+    val (fillColor, borderColor) = gradeToColors(text)
     Box {
-        Canvas(modifier = Modifier.size(250.dp)) {
+        Canvas(modifier = Modifier.size(300.dp)) {
             val center = Offset(size.width / 2, size.height / 2)
             val baseRadius = size.minDimension / 2 * 0.8f
             val amplitude = 20f
@@ -453,8 +465,8 @@ private fun WavyCircleExample(text: String) {
             }
 
             // Fill and stroke the wavy circle
-            drawPath(path = path, color = GoodGrade, style = Fill)
-            drawPath(path = path, color = LightGoodGrade, style = Stroke(width = 20f))
+            drawPath(path = path, color = fillColor, style = Fill)
+            drawPath(path = path, color = borderColor, style = Stroke(width = 20f))
         }
 
         // Grade text centered inside
@@ -465,5 +477,19 @@ private fun WavyCircleExample(text: String) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.Center)
         )
+    }
+}
+
+// Grading function for the colors of the grade
+private fun gradeToColors(grade: String): Pair<Color, Color> {
+    val baseGrade = grade.trim().uppercase().firstOrNull()
+
+    return when (baseGrade) {
+        'A' -> Pair(GradeGreen, GradeDarkGreen)
+        'B' -> Pair(GradeBlue, GradeDarkBlue)
+        'C' -> Pair(GradeYellow, GradeDarkYellow)
+        'D' -> Pair(GradeOrange, GradeDarkOrange)
+        'F' -> Pair(GradeRed, GradeDarkRed)
+        else -> Pair(GradeGray, GradeDarkGray)
     }
 }

@@ -89,10 +89,10 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { navController, destination, arguments ->
             if (destination.id == R.id.navigation_scan) {
                 binding.navView.visibility = View.GONE
-//                supportActionBar?.hide()
+                supportActionBar?.hide()
             } else {
                 binding.navView.visibility = View.VISIBLE
-//                supportActionBar?.show()
+                supportActionBar?.show()
             }
         }
 

@@ -37,6 +37,66 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ingrediscan.R
 import com.example.ingrediscan.ui.theme.lightGreen
+// Compose
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
+
+// CameraX
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
+// AndroidX Utils
+import androidx.core.content.ContextCompat
+
+@Composable
+fun CameraPreview() {
+    // Get the current context and lifecycle owner from the Compose environment
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    // Use AndroidView to embed a traditional Android View (PreviewView) into a Compose UI
+    AndroidView(
+        factory = { ctx ->
+            // PreviewView is a CameraX component that displays the camera feed
+            val previewView = PreviewView(ctx)
+
+            // Asynchronously get a camera provider instance
+            val cameraProviderFuture = ProcessCameraProvider.getInstance(ctx)
+
+            // When the camera provider is ready, configure the preview use case
+            cameraProviderFuture.addListener({
+                // Get the actual CameraProvider
+                val cameraProvider = cameraProviderFuture.get()
+
+                // Build the camera preview use case
+                val preview = Preview.Builder().build().also {
+                    // Set the PreviewView as the surface provider for the preview
+                    it.setSurfaceProvider(previewView.surfaceProvider)
+                }
+
+                // Select the back-facing camera
+                val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+                // Unbind all previous use cases (required before re-binding)
+                cameraProvider.unbindAll()
+
+                // Bind the preview use case to the lifecycle of the screen
+                cameraProvider.bindToLifecycle(
+                    lifecycleOwner,    // Makes preview stop/start with the screen
+                    cameraSelector,    // Specifies the back camera
+                    preview            // The preview use case to display camera feed
+                )
+            }, ContextCompat.getMainExecutor(ctx)) // Run on the main UI thread
+
+            // Return the native Android view that will be embedded in Compose
+            previewView
+        },
+        modifier = Modifier.fillMaxSize() // Make the camera preview fill the entire screen
+    )
+}
+
 
 @Composable
 fun ScanScreen(
@@ -54,7 +114,6 @@ fun BoxWithCutout(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Gray) // Main background (white or any other content)
             .graphicsLayer {
                 compositingStrategy = CompositingStrategy.Offscreen
             }
@@ -82,6 +141,8 @@ fun BoxWithCutout(
                 }
             }
     ) {
+        // Show camera as main background
+        CameraPreview()
         // Semi-transparent black overlay
         Box(
             modifier = Modifier
