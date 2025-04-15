@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.ingrediscan.databinding.FragmentLoginBinding
+import androidx.navigation.fragment.findNavController
+import com.example.ingrediscan.R
 
 class LoginFragment : Fragment() {
 
@@ -28,10 +31,15 @@ class LoginFragment : Fragment() {
         val root: View = binding.root
 
         binding.buttonLogin.setOnClickListener {
-            val username = binding.enterUsername.text.toString()
-            val password = binding.enterPassword.text.toString()
+            val username = binding.enterUsername.text.toString().trim()
+            val password = binding.enterPassword.text.toString().trim()
 
-            loginViewModel.login(username, password)
+            // Pop up an error message when inputs for username and password are empty
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter username and password.", Toast.LENGTH_SHORT).show()
+            } else {
+                findNavController().navigate(R.id.login_to_home)
+            }
         }
 
         return root
