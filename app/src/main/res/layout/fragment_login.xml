@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/ingrediscan"
-            android:textColor="#4CAF50"
+            android:textColor="@color/green"
             android:textSize="50sp"
             android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="4dp"
             android:text="@string/subHeader"
-            android:textColor="#808080"
+            android:textColor="@color/light_gray"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,7 @@
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold|italic"
-            app:backgroundTint="#4CAF50"
+            app:backgroundTint="@color/green"
             app:cornerRadius="30dp" />
 
         <TextView
@@ -105,11 +105,11 @@
             android:layout_marginRight="50dp"
             android:layout_marginBottom="30dp"
             android:text="@string/signup"
-            android:textColor="#4CAF50"
+            android:textColor="@color/green"
             android:textSize="24sp"
             android:textStyle="bold|italic"
             app:backgroundTint="@android:color/white"
-            app:strokeColor="#4CAF50"
+            app:strokeColor="@color/green"
             app:strokeWidth="2dp"
             app:cornerRadius="30dp" />
 
