@@ -10,4 +10,6 @@
     <color name="green">#FF4CAF50</color>
     <color name="white_green_tint">#F7FDF7</color>
     <color name="gray">#B0B0B0</color>
+    <color name="blue">#0099FA</color>
+    <color name="orange">#FF6359</color>
 </resources>

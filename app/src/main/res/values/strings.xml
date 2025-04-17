@@ -28,7 +28,7 @@
     <string name="no_account">Don\'t have an account?</string>
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
-    <string name="read_more"><u>Read more</u></string>
+    <string name="read_more">Read more</string>
     <string name="profile_image">Profile Image</string>
     <string name="profile_weight">Weight: 0.00 LBS</string>
     <string name="profile_height">Height: 0 00</string>

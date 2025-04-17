@@ -47,16 +47,19 @@
                 android:layout_gravity="center"/>
 
             <SearchView
+                android:background="@drawable/search_outline"
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:queryHint="Search for a food or drink item..."/>
+                android:layout_marginTop="20dp"
+                android:queryHint="Search for a food or drink item..." 
+                android:iconifiedByDefault="true"/>
 
             <TextView
                 android:id="@+id/recommendedLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recommended"
+                android:text="Recommendations For You"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#000000"
@@ -129,21 +132,31 @@
                         android:layout_marginBottom="5dp" 
                         android:layout_marginStart="0dp" />
                     
-                    <TextView
-                        android:id="@+id/readMoreLabel"
+                    <Button
+                        android:id="@+id/readMoreButton"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rounded_corner_button"
+                        android:maxLines="1"
+                        android:padding="-5dp"
+                        android:textSize="10sp"
+                        android:clipToOutline="false"
                         android:text="@string/read_more"
-                        android:textSize="14sp"
-                        android:textColor="@android:color/black"
                         android:textAlignment="viewStart"
-                        android:gravity="left"
                         app:layout_constraintTop_toBottomOf="@id/foodDrinkTitle"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/foodDrinkIcon"
                         android:layout_marginBottom="5dp" 
                         android:layout_marginTop="5dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+            
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="140dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="-15dp"
+                app:layout_constraintStart_toEndOf="@+id/foodDrinkTextContainer"
+                app:layout_constraintEnd_toEndOf="@+id/foodDrinkContainer"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Product 2 -->
@@ -210,21 +223,30 @@
                         android:layout_marginBottom="5dp" 
                         android:layout_marginStart="0dp" />
                     
-                    <TextView
-                        android:id="@+id/readMoreLabel2"
+                    <Button
+                        android:id="@+id/readMoreButton2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rounded_corner_button"
+                        android:maxLines="1"
+                        android:padding="-5dp"
+                        android:textSize="10sp"
+                        android:clipToOutline="false"
                         android:text="@string/read_more"
-                        android:textSize="14sp"
-                        android:textColor="@android:color/black"
                         android:textAlignment="viewStart"
-                        android:gravity="left"
                         app:layout_constraintTop_toBottomOf="@id/foodDrinkTitle2"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/foodDrinkIcon2"
                         android:layout_marginBottom="5dp" 
                         android:layout_marginTop="5dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+                
+                <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart2"
+                android:layout_width="140dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="-15dp"
+                app:layout_constraintStart_toEndOf="@+id/foodDrinkTextContainer2"
+                app:layout_constraintEnd_toEndOf="@+id/foodDrinkContainer2"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             
             <!-- Product 3 -->
@@ -291,21 +313,31 @@
                         android:layout_marginBottom="5dp" 
                         android:layout_marginStart="0dp" />
                     
-                    <TextView
-                        android:id="@+id/readMoreLabel3"
+                    <Button
+                        android:id="@+id/readMoreButton3"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rounded_corner_button"
+                        android:maxLines="1"
+                        android:padding="-5dp"
+                        android:textSize="10sp"
+                        android:clipToOutline="false"
                         android:text="@string/read_more"
-                        android:textSize="14sp"
-                        android:textColor="@android:color/black"
                         android:textAlignment="viewStart"
-                        android:gravity="left"
                         app:layout_constraintTop_toBottomOf="@id/foodDrinkTitle3"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/foodDrinkIcon3"
                         android:layout_marginBottom="5dp" 
                         android:layout_marginTop="5dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart3"
+                android:layout_width="140dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="-15dp"
+                app:layout_constraintStart_toEndOf="@+id/foodDrinkTextContainer3"
+                app:layout_constraintEnd_toEndOf="@+id/foodDrinkContainer3"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

@@ -141,4 +141,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation ("androidx.appcompat:appcompat:1.7.0")
 
+    // Search page dependencies
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 }
