@@ -7,6 +7,12 @@ import android.widget.LinearLayout
 import android.widget.NumberPicker
 import androidx.fragment.app.Fragment
 import kotlin.math.pow
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 
 data class CalorieGoals(
     val maintain: Int,
@@ -149,4 +155,27 @@ fun calculateCalorieGoals(
     val extremeLoss = (maintain - 1000).coerceAtLeast(1200)
 
     return CalorieGoals(maintain, mildLoss, loss, extremeLoss)
+}
+
+// Function to set profile picture in profile page
+fun Fragment.setupImagePicker(
+    imageView: ImageView
+): ActivityResultLauncher<Intent> {
+    val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val imageUri: Uri? = result.data?.data
+            imageUri?.let { uri ->
+                imageView.setImageURI(uri)
+            }
+        }
+    }
+
+    imageView.setOnClickListener {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            type = "image/*"
+        }
+        launcher.launch(intent)
+    }
+
+    return launcher
 }

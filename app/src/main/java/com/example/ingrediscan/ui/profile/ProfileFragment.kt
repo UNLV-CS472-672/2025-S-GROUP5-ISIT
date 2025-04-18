@@ -1,17 +1,16 @@
 package com.example.ingrediscan.ui.profile
-
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.ingrediscan.databinding.FragmentProfileBinding
-import com.example.ingrediscan.utils.showChoiceDialog
+import com.example.ingrediscan.utils.*
 
-// Utilities.kt imports
-import com.example.ingrediscan.utils.showNumberPickerDialog
-import com.example.ingrediscan.utils.showHeightPickerDialog
+private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
 
 class ProfileFragment : Fragment() {
 
@@ -24,28 +23,31 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        profileViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        profileViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+
+        // Use image picker utility (allow user to set profile picture)
+        pickImageLauncher = setupImagePicker(binding.profileButtonImage)
+
+        // Show profile banner
+        binding.profileBanner.visibility = View.VISIBLE
+
         // Buttons
-        val profileBanner = binding.profileBanner
         val weightButton = binding.profileButtonWeight
         val heightButton = binding.profileButtonHeight
         val ageButton = binding.profileButtonAge
         val sexButton = binding.profileButtonSex
         val activityLevelButton = binding.profileButtonActivityLevel
 
-        profileBanner.visibility = View.VISIBLE
-
         // *** Weight Button ***
         profileViewModel.weight.observe(viewLifecycleOwner) { newWeight ->
             weightButton.text = "Weight: $newWeight lbs"
         }
         weightButton.setOnClickListener {
-            showNumberPickerDialog("Enter Weight", 50, 500) { enteredWeight ->
-                profileViewModel.setWeight(enteredWeight)
+            showNumberPickerDialog("Enter Weight", 50, 500) { weight ->
+                profileViewModel.setWeight(weight)
                 profileViewModel.updateBMI()
                 profileViewModel.updateCalorieGoals()
             }
@@ -70,8 +72,8 @@ class ProfileFragment : Fragment() {
             ageButton.text = "Age: $newAge years"
         }
         ageButton.setOnClickListener {
-            showNumberPickerDialog("Select Age", 13, 110) { selectedAge ->
-                profileViewModel.setAge(selectedAge)
+            showNumberPickerDialog("Select Age", 13, 110) { age ->
+                profileViewModel.setAge(age)
                 profileViewModel.updateCalorieGoals()
             }
         }
@@ -81,30 +83,30 @@ class ProfileFragment : Fragment() {
             sexButton.text = "Sex: $newSex"
         }
         sexButton.setOnClickListener {
-            val sexOptions = listOf("Male", "Female")
-            showChoiceDialog("Select Sex", sexOptions) { selectedSex ->
+            showChoiceDialog("Select Sex", listOf("Male", "Female")) { selectedSex ->
                 profileViewModel.setSex(selectedSex)
                 profileViewModel.updateCalorieGoals()
             }
         }
+
         // *** Activity Level Button ***
         profileViewModel.activityLevel.observe(viewLifecycleOwner) { newActivityLevel ->
             activityLevelButton.text = "Activity Level: $newActivityLevel"
         }
         activityLevelButton.setOnClickListener {
-            val activityOptions = listOf("Sedentary", "Lightly Active", "Moderately Active", "Active", "Very Active")
-            showChoiceDialog("Select Activity Level", activityOptions) { selectedActivity ->
-                profileViewModel.setActivityLevel(selectedActivity)
+            val levels = listOf("Sedentary", "Lightly Active", "Moderately Active", "Active", "Very Active")
+            showChoiceDialog("Select Activity Level", levels) { selected ->
+                profileViewModel.setActivityLevel(selected)
                 profileViewModel.updateCalorieGoals()
             }
         }
 
-        // Observe BMI and update text
+        // *** BMI Text ***
         profileViewModel.bmi.observe(viewLifecycleOwner) { bmi ->
             binding.bmiText.text = "BMI: $bmi"
         }
 
-        // Update calorie suggestions
+        // *** Calorie Suggestions ***
         profileViewModel.calorieGoals.observe(viewLifecycleOwner) { goals ->
             val weight = profileViewModel.weight.value
             val feet = profileViewModel.heightFeet.value
@@ -113,25 +115,22 @@ class ProfileFragment : Fragment() {
             val sex = profileViewModel.sex.value
             val activity = profileViewModel.activityLevel.value
 
-            val missingInputs = mutableListOf<String>()
+            val missing = mutableListOf<String>()
+            if (weight == null || weight == 0) missing.add("weight")
+            if (feet == null || feet == 0 || inches == null) missing.add("height")
+            if (age == null || age == 0) missing.add("age")
+            if (sex == null || sex == "N/A") missing.add("sex")
+            if (activity == null || activity == "N/A") missing.add("activity level")
 
-            if (weight == null || weight == 0) missingInputs.add("weight")
-            if (feet == null || feet == 0 || inches == null) missingInputs.add("height")
-            if (age == null || age == 0) missingInputs.add("age")
-            if (sex == null || sex == "N/A") missingInputs.add("sex")
-            if (activity == null || activity == "N/A") missingInputs.add("activity level")
-
-            if (missingInputs.isNotEmpty()) {
-                val message = "Please enter ${missingInputs.joinToString(", ")}"
-                binding.caloricSuggestionTextView.text = message
+            binding.caloricSuggestionTextView.text = if (missing.isNotEmpty()) {
+                "Please enter ${missing.joinToString(", ")}"
             } else {
-                val text = """
-            Maintain: ${goals.maintain} kcal
-            Mild Loss: ${goals.mildLoss} kcal
-            Loss: ${goals.loss} kcal
-            Extreme Loss: ${goals.extremeLoss} kcal
-        """.trimIndent()
-                binding.caloricSuggestionTextView.text = text
+                """
+                    Maintain: ${goals.maintain} kcal
+                    Mild Loss: ${goals.mildLoss} kcal
+                    Loss: ${goals.loss} kcal
+                    Extreme Loss: ${goals.extremeLoss} kcal
+                """.trimIndent()
             }
         }
 
